@@ -1,5 +1,7 @@
 package net.engineeringdigest.journalApp.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,30 +15,10 @@ import java.util.Date;
 @Document(collection = "journal_entries")
 // this annotation is used to specify that this class is a document that will be stored in the database
 //journalEntry ka instance banega toh ek document banega
+@Getter
+@Setter
 public class JournalEntry {
-    public ObjectId getId() {
-        return id;
-    }
 
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     @Id // this annotation is used to specify that this field is the id of the document
     private ObjectId id;
@@ -44,13 +26,7 @@ public class JournalEntry {
     private String title;
     private String content;
 
-    public LocalDateTime getDate() {
-        return date;
-    }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
     private LocalDateTime date;
 }
