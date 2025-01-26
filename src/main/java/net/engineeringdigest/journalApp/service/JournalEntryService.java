@@ -1,14 +1,17 @@
 package net.engineeringdigest.journalApp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journalApp.repository.JournalEntryRepository;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class JournalEntryService {
     // this class will have the business logic
@@ -19,7 +22,12 @@ public class JournalEntryService {
 
     public void saveEntry(JournalEntry journalEntry){
         //this method will be used to save the journal entry in the database
-        journalEntryRepository.save(journalEntry);
+        try{
+            journalEntry.setDate(LocalDateTime.now());
+            journalEntryRepository.save(journalEntry);
+        }catch (Exception e){
+            log.error("Error while saving the journal entry", e);
+        }
     }
 
     //here we will create another service to get all the journal entries from the database

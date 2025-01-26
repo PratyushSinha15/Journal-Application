@@ -40,7 +40,6 @@ public class JournalEntryControllerV2 {
     @PostMapping
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
         try{
-            myEntry.setDate(LocalDateTime.now());
             journalEntryService.saveEntry(myEntry);//this method will save the journal entry in the database
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         }catch (Exception e){

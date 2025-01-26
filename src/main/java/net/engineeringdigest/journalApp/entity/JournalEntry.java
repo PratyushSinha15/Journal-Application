@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalApp.entity;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -22,11 +23,8 @@ public class JournalEntry {
 
     @Id // this annotation is used to specify that this field is the id of the document
     private ObjectId id;
-
+    @NonNull
     private String title;
     private String content;
-
-
-
     private LocalDateTime date;
 }
