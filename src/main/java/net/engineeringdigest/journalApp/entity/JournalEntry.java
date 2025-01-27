@@ -1,8 +1,6 @@
 package net.engineeringdigest.journalApp.entity;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,8 +14,8 @@ import java.util.Date;
 @Document(collection = "journal_entries")
 // this annotation is used to specify that this class is a document that will be stored in the database
 //journalEntry ka instance banega toh ek document banega
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class JournalEntry {
 
 

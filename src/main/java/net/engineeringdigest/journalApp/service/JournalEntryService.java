@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalApp.service;
 
 import lombok.extern.slf4j.Slf4j;
+import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.JournalEntryRepository;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
 import org.bson.types.ObjectId;
@@ -19,7 +20,21 @@ public class JournalEntryService {
     @Autowired// this annotation is used to inject the repository into the service(Dependency Injection)
     private JournalEntryRepository journalEntryRepository; //this is an interface that extends MongoRepository and it will be used to interact with the database
     //its implementation will be provided by spring boot at runtime
+    @Autowired
+    private UserService userService;
 
+    public void saveEntry(JournalEntry journalEntry, String userName){
+        //this method will be used to save the journal entry in the database
+        try{
+            User user= userService.findByUserName(userName);
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            userService.saveEntry(user);
+        }catch (Exception e){
+            log.error("Error while saving the journal entry", e);
+        }
+    }
     public void saveEntry(JournalEntry journalEntry){
         //this method will be used to save the journal entry in the database
         try{
@@ -43,7 +58,10 @@ public class JournalEntryService {
     }
 
     //method to delete a journal entry by id
-    public void deleteEntryById(ObjectId id){
+    public void deleteEntryById(ObjectId id, String userName){
+        User user= userService.findByUserName(userName);
+        user.getJournalEntries().removeIf(x -> x.getId().equals(id)); //remove the journal entry from the user's journal entries list
+        userService.saveEntry(user);
         journalEntryRepository.deleteById(id);
     }
 }
